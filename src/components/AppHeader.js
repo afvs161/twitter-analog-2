@@ -4,17 +4,33 @@ export default class AppHeader extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			search: ''
+			search: '',
 		}
+		this.buttons = [
+			{ key: 'all', name: 'All' },
+			{ key: 'liked', name: 'Liked' },
+		]
 	}
 
-	onSearch = (e) => {
+	onSearch = e => {
 		this.setState({ search: e.target.value })
 		this.props.onType(this.state.search)
 	}
 
 	render() {
-		const { postsLength, likes } = this.props
+		const { postsLength, likes, onFilter, currentFilter } = this.props
+		const createButtons = this.buttons.map(({ key, name }) => {
+			return (
+				<button
+					type='button'
+					key={key}
+					className={`btn btn-${currentFilter === key ? '' : 'outline-'}primary`}
+					onClick={() => onFilter(key)}
+				>
+					{name}
+				</button>
+			)
+		})
 		return (
 			<div className='app-header'>
 				<div className='app-info d-flex justify-content-between'>
@@ -31,14 +47,7 @@ export default class AppHeader extends React.Component {
 						placeholder='search tweet'
 						onChange={this.onSearch}
 					/>
-					<div className='btn-group mx-1'>
-						<button type='button' className='btn btn-primary'>
-							All
-						</button>
-						<button type='button' className='btn btn-outline-primary'>
-							Liked
-						</button>
-					</div>
+					<div className='btn-group mx-1'>{createButtons}</div>
 				</div>
 			</div>
 		)

@@ -13,6 +13,7 @@ export default class App extends React.Component {
 				{ tweet: 'tweet one', bookmark: true, like: true, id: 1 },
 			],
 			search: '',
+			filter: 'all',
 		}
 		this.lastTweetId = 4
 	}
@@ -96,11 +97,23 @@ export default class App extends React.Component {
 		})
 	}
 
+	onFilter = e => {
+		this.setState({ filter: e })
+	}
+
+	applyFilter = (array, filter) => {
+		if (filter === 'all') {
+			return array
+		} else {
+			return array.filter(item => item.like)
+		}
+	}
+
 	render() {
-		const { data, search } = this.state
+		const { data, search, filter } = this.state
 		const postsLength = this.state.data.length
 		const likes = data.filter(tweet => tweet.like).length
-		const all = this.onSearch(data, search)
+		const all = this.applyFilter(this.onSearch(data, search), filter)
 
 		return (
 			<div className='div-holder'>
@@ -108,6 +121,8 @@ export default class App extends React.Component {
 					postsLength={postsLength}
 					likes={likes}
 					onType={this.onType}
+					onFilter={this.onFilter}
+					currentFilter={filter}
 				/>
 				<PostList
 					tweets={all}
