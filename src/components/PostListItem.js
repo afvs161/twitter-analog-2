@@ -9,7 +9,7 @@ export default function PostListItem({
 	return (
 		<div>
 			<li className='list-group-item d-flex justify-content-between'>
-				<span className='h5'>{tweet}</span>
+				<span className='h5 w-100' onDoubleClick={onLike}>{tweet}</span>
 				<div className='btn-group'>
 					<button
 						type='button'
@@ -22,7 +22,7 @@ export default function PostListItem({
 						<i className='fa fa-trash'></i>
 					</button>
 					<button type='button' className='btn btn-light' onClick={onLike}>
-						<i className={`fa fa-heart${like ? ' red' : ''}`}></i>
+						<i className={`fa fa-heart default${like ? ' red' : ''}`}></i>
 					</button>
 				</div>
 			</li>

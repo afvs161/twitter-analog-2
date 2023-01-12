@@ -3,7 +3,14 @@ import React from 'react'
 export default class AppHeader extends React.Component {
 	constructor(props) {
 		super(props)
-		this.state = {}
+		this.state = {
+			search: ''
+		}
+	}
+
+	onSearch = (e) => {
+		this.setState({ search: e.target.value })
+		this.props.onType(this.state.search)
 	}
 
 	render() {
@@ -22,6 +29,7 @@ export default class AppHeader extends React.Component {
 						type='text'
 						className='form-control mx-1'
 						placeholder='search tweet'
+						onChange={this.onSearch}
 					/>
 					<div className='btn-group mx-1'>
 						<button type='button' className='btn btn-primary'>

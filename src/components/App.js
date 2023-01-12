@@ -8,12 +8,13 @@ export default class App extends React.Component {
 		super(props)
 		this.state = {
 			data: [
-				{ tweet: 'tweet tweet tweet', bookmark: true, like: false, id: 3 },
-				{ tweet: 'tweet tweet tweet', bookmark: false, like: true, id: 2 },
-				{ tweet: 'tweet tweet tweet', bookmark: true, like: true, id: 1 },
+				{ tweet: 'tweet three', bookmark: true, like: false, id: 3 },
+				{ tweet: 'tweet two', bookmark: false, like: true, id: 2 },
+				{ tweet: 'tweet one', bookmark: true, like: true, id: 1 },
 			],
+			search: '',
 		}
-		this.lastTweetId = 3
+		this.lastTweetId = 4
 	}
 
 	onBookmark = id => {
@@ -65,21 +66,56 @@ export default class App extends React.Component {
 		})
 	}
 
+	newTweet = gotFromForm => {
+		const newTweet = {
+			tweet: gotFromForm,
+			bookmark: false,
+			like: false,
+			id: this.lastTweetId++,
+		}
+
+		this.setState(({ data }) => {
+			const newArr = [newTweet, ...this.state.data]
+			return {
+				data: newArr,
+			}
+		})
+	}
+
+	onType = value => {
+		this.setState({ search: value })
+	}
+
+	onSearch = (array, value) => {
+		if (value.length === 0) {
+			return array
+		}
+
+		return array.filter(item => {
+			return item.tweet.indexOf(value) > -1
+		})
+	}
+
 	render() {
-		const { data } = this.state
+		const { data, search } = this.state
 		const postsLength = this.state.data.length
 		const likes = data.filter(tweet => tweet.like).length
+		const all = this.onSearch(data, search)
 
 		return (
 			<div className='div-holder'>
-				<AppHeader postsLength={postsLength} likes={likes} />
+				<AppHeader
+					postsLength={postsLength}
+					likes={likes}
+					onType={this.onType}
+				/>
 				<PostList
-					tweets={data}
+					tweets={all}
 					onBookmark={this.onBookmark}
 					onDelete={this.onDelete}
 					onLike={this.onLike}
 				/>
-				<PostAddForm />
+				<PostAddForm newTweet={this.newTweet} />
 			</div>
 		)
 	}
