@@ -3,18 +3,11 @@ import React from 'react'
 export default class AppHeader extends React.Component {
 	constructor(props) {
 		super(props)
-		this.state = {
-			search: '',
-		}
+		this.state = {}
 		this.buttons = [
 			{ key: 'all', name: 'All' },
 			{ key: 'liked', name: 'Liked' },
 		]
-	}
-
-	onSearch = e => {
-		this.setState({ search: e.target.value })
-		this.props.onType(this.state.search)
 	}
 
 	render() {
@@ -24,7 +17,9 @@ export default class AppHeader extends React.Component {
 				<button
 					type='button'
 					key={key}
-					className={`btn btn-${currentFilter === key ? '' : 'outline-'}primary`}
+					className={`btn btn-${
+						currentFilter === key ? '' : 'outline-'
+					}primary`}
 					onClick={() => onFilter(key)}
 				>
 					{name}
@@ -45,7 +40,9 @@ export default class AppHeader extends React.Component {
 						type='text'
 						className='form-control mx-1'
 						placeholder='search tweet'
-						onChange={this.onSearch}
+						onChange={e => {
+							this.props.onType(e.target.value)
+						}}
 					/>
 					<div className='btn-group mx-1'>{createButtons}</div>
 				</div>

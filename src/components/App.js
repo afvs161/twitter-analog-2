@@ -23,12 +23,9 @@ export default class App extends React.Component {
 			const index = data.findIndex(element => element.id === id)
 			const oldItem = data[index]
 			const newItem = { ...oldItem, bookmark: !oldItem.bookmark }
-
 			const before = data.slice(0, index)
 			const after = data.slice(index + 1)
-
 			const newArr = [...before, newItem, ...after]
-
 			return {
 				data: newArr,
 			}
@@ -53,18 +50,21 @@ export default class App extends React.Component {
 	}
 
 	onDelete = id => {
-		this.setState(({ data }) => {
-			const index = data.findIndex(element => element.id === id)
+		// this.setState(({ data }) => {
+		// 	const index = data.findIndex(element => element.id === id)
 
-			const before = data.slice(0, index)
-			const after = data.slice(index + 1)
+		// 	const before = data.slice(0, index)
+		// 	const after = data.slice(index + 1)
 
-			const newArr = [...before, ...after]
+		// 	const newArr = [...before, ...after]
 
-			return {
-				data: newArr,
-			}
-		})
+		// 	return {
+		// 		data: newArr,
+		// 	}
+		// })
+		// let newArr = [...this.state.data]
+		// newArr = newArr.
+		this.setState({ data: this.state.data.filter(s => s.id !== id) })
 	}
 
 	newTweet = gotFromForm => {
